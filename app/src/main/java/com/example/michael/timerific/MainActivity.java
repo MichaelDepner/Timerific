@@ -2,6 +2,7 @@ package com.example.michael.timerific;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.wear.widget.WearableLinearLayoutManager;
@@ -35,6 +36,7 @@ public class MainActivity extends WearableActivity {
 
         //rvTimers.setLayoutManager(new LinearLayoutManager(this));
         rvTimers.setLayoutManager( new WearableLinearLayoutManager(this));
+        rvTimers.setItemAnimator( new DefaultItemAnimator() );
 
 
         //List<String> exampleArray = Arrays.asList("Example 1", "Example 2", "Example 4?", "Just kidding", "Hello", "Another one");

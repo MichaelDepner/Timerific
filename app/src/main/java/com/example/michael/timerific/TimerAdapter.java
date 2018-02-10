@@ -1,6 +1,7 @@
 package com.example.michael.timerific;
 
 import android.content.Context;
+import android.support.wear.widget.WearableLinearLayoutManager;
 import android.support.wear.widget.WearableRecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -22,6 +24,7 @@ public class TimerAdapter extends
         public TextView nameTextView;
         public TextView numberTextView;
         public ToggleButton messageButton;
+        public LinearLayout layout;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -29,7 +32,7 @@ public class TimerAdapter extends
             nameTextView = itemView.findViewById(R.id.timer_name);
             numberTextView = itemView.findViewById(R.id.timer_number);
             messageButton = itemView.findViewById(R.id.message_button);
-
+            layout = itemView.findViewById(R.id.timer_layout);
 
         }
     }
@@ -60,7 +63,7 @@ public class TimerAdapter extends
         final Timer timer = mTimers.get(position);
         Log.v("TimerAdapter","onBindViewHolder for "+timer.getName());
 
-        //viewHolder.setIsRecyclable(false);
+        viewHolder.setIsRecyclable(false);
 
         final TextView nameTextView = viewHolder.nameTextView;
         nameTextView.setText(timer.getName());
@@ -68,12 +71,14 @@ public class TimerAdapter extends
         final TextView numberTextView = viewHolder.numberTextView;
         numberTextView.setText( timer.getCurrentFormattedTime() );
 
+        final LinearLayout layout = viewHolder.layout;
+
         final ToggleButton button = viewHolder.messageButton;
         button.setText( String.valueOf( timer.isRunning() ) );
         if (timer.isRunning()) {
             button.setChecked(true);
             timer.stopCountDownTimer();
-            timer.startCountDownTimer(numberTextView, button);
+            timer.startCountDownTimer(numberTextView, button, layout);
             System.out.println("Starting "+nameTextView.getText());
         } else {
             button.setChecked(false);
@@ -85,7 +90,7 @@ public class TimerAdapter extends
                 if (button.isChecked()) {
                     if ( !timer.isRunning() ) {
                         timer.stopCountDownTimer();
-                        timer.startCountDownTimer(numberTextView, button);
+                        timer.startCountDownTimer(numberTextView, button, layout);
                         System.out.println("Starting "+nameTextView.getText());
                     }
                 } else {

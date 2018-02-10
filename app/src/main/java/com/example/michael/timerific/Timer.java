@@ -1,7 +1,9 @@
 package com.example.michael.timerific;
 
+import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -33,9 +35,11 @@ public class Timer {
         return mTotalTime;
     }
 
-    public void startCountDownTimer(final TextView timerText, final CompoundButton button) {
+    public void startCountDownTimer(final TextView timerText, final CompoundButton button, final LinearLayout layout) {
         //if ( mCurrentTime == 0 ) { mCurrentTime = mTotalTime; }
         System.out.println("Starting timer that runs for "+mCurrentTime+" milliseconds");
+        int currentBackground = layout.getDrawingCacheBackgroundColor();
+        layout.setBackgroundColor(currentBackground);
         mCountDownTimer = new CountDownTimer(mCurrentTime, 100) {
             @Override
             public void onTick(long l) {
@@ -47,8 +51,10 @@ public class Timer {
             public void onFinish() {
                 mCurrentTime = mTotalTime; //Resetting time
                 System.out.println("Timer finished!");
+                running = false;
                 button.setChecked(false);
                 timerText.setText(getCurrentFormattedTime());
+                layout.setBackgroundColor(Color.GREEN);
             }
         };
         mCountDownTimer.start();
@@ -89,7 +95,7 @@ public class Timer {
         ArrayList<Timer> timers = new ArrayList<>();
 
         for (int i = 1; i<= numTimers; i++) {
-            timers.add( new Timer("Timer "+ ++timerNumber, timerNumber*1000000));
+            timers.add( new Timer("Timer "+ ++timerNumber, timerNumber*10000));
         }
         return timers;
     }

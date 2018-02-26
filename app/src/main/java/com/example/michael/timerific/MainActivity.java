@@ -85,6 +85,8 @@ public class MainActivity extends WearableActivity implements MenuItem.OnMenuIte
                     toastMessage,
                     Toast.LENGTH_SHORT);
             toast.show();
+            Intent intent = new Intent(this, NewTimerActivity.class);
+            startActivity(intent);
             return true;
         } else {
             return false;
